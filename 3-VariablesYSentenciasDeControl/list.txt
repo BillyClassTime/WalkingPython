@@ -1,0 +1,16 @@
+
+
+# Ejercicios propuestos de funciones
+
+Básicos:
+Crea una función lambda que convierta una cadena en mayúsculas.
+Crea una función lambda que calcule el área de un triángulo con base y altura dadas.
+Crea una función lambda que elimine todos los elementos repetidos en una lista.
+Medios:
+Crea una función lambda que calcule la media de un conjunto de números.
+Crea una función lambda que encuentre la cadena más larga en una lista de cadenas.
+Crea una función lambda que ordene una lista de diccionarios por el valor de una clave específica.
+Avanzados:
+Crea una función lambda que devuelva una lista de los elementos que se repiten en dos listas.
+Crea una función lambda que encuentre el número más común en una lista de números.
+Crea una función lambda que tome una lista de diccionarios y devuelva una lista de valores únicos en una clave dada
