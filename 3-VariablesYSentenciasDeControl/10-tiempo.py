@@ -1,5 +1,6 @@
 # %%
 import time
+time.localtime().tm_year
 print("Time:",time.time())
 print(time.localtime(time.time()))
 print("Año:",time.localtime(time.time()).tm_year)

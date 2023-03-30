@@ -1,7 +1,7 @@
 # %%
 from datetime import datetime
 import locale
-locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+#locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
 
 dt =datetime.strptime('29/04/2022','%d/%m/%Y') #datetime.now()
 
