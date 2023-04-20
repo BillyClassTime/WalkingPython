@@ -1,7 +1,8 @@
+fichero=None
 try:
-    fichero=open("file_500.csv","rt")
+    fichero=open("BillyVanegasEjerciciosFundamentos.md","rt",encoding='UTF-8') #D:\caperta\nombrefichero.extension
     #,encoding='UTF-8')
-    print(type(fichero))
+    #print(type(fichero))
     contenido = fichero.read()
     print(contenido)
 except FileNotFoundError as e:
@@ -9,5 +10,6 @@ except FileNotFoundError as e:
 except Exception as e:
     print(f"E:{e}")
 finally:
-    fichero.close()
-    print('closing')
+    if fichero != None :
+        fichero.close()
+        print('closing')

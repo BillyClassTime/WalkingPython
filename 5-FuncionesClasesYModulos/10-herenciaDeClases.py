@@ -1,7 +1,4 @@
-class Persona:
-    def __init__(self,nombres,apellidos):
-        self.Nombres = nombres
-        self.Apellidos = apellidos
+from Persona import Persona
 
 class Alumno(Persona):
     Curso = None
