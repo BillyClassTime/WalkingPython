@@ -2,9 +2,10 @@ fichero = None
 def fichero_exite(nombre_fichero):
     try:
         open(nombre_fichero) #,"rt")
-    except FileNotFoundError:
+    except Exception: #FileNotFoundError: 
         return False
-    return True
+    else: 
+        return True
 try:
     file = input("Entre el nombre del fichero:") #"InformacionPersonas.json"
     if (not fichero_exite(file)):
@@ -17,6 +18,10 @@ try:
         fichero=open(file,"rt",encoding='UTF-8')
         contenido = fichero.read()
         print(f"Leido contenido:\n{contenido}")
+except ValueError as e:
+    print(f"E:{e}")
+except FileNotFoundError as e:
+    print(f"E:{e}")
 except Exception as e:
     print(f"E:{e}")
 finally:
