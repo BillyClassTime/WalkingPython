@@ -2,20 +2,15 @@
 #https://www.dev2qa.com/how-to-drop-mongodb-database-and-collection-use-pymongo-in-python/s
 #Query and Projection Operators:https://www.mongodb.com/docs/manual/reference/operator/query/
 from pymongo.mongo_client import MongoClient
-
+import os
 def connectdb():
-    #clientDB = MongoClient('mongodb://localhost:27017/')
-    uri = "mongodb://atlas-sql-643f1b649f0e864aae69ed54-khc2b.a.query.mongodb.net/Students?ssl=true&authSource=Students" 	
-    #uri = "mongodb+srv://billyclasstime:ydyJNnHd1tIRpFAC@cluster0.qlwohwx.mongodb.net/?retryWrites=true&w=majority"
-    #uri=   "mongodb+srv://developer:6ZKujh1pm9pW2gl7@cluster0.qlwohwx.mongodb.net/?authSource=admin&retryWrites=true&w=majority"
-    #uri=   "mongodb+srv://developer:6ZKujh1pm9pW2gl7@cluster0.qlwohwx.mongodb.net/?retryWrites=true&w=majority"
-    clientDB = MongoClient(uri)
+    clientDB = MongoClient('mongodb://localhost:27017/')
     db = clientDB.admin
     resultado = db.command('serverStatus')
     print('Host:',resultado['host'])
-    #print('Version:',resultado['version'])
-    #print('Process:',resultado['process'])
-    #print(clientDB.list_database_names())
+    print('Version:',resultado['version'])
+    print('Process:',resultado['process'])
+    print(clientDB.list_database_names())
     return clientDB
 
 #Create a database
@@ -53,7 +48,7 @@ def retrievingManyDocuments(query,col):
 
 #Retrieve all the documents
 def retrieveAllDocuments(col):
-    result=col.find({}).limit(2)
+    result=col.find({}).limit(200)
     for i in result:
         print(i)
 #filtering
@@ -90,6 +85,7 @@ if __name__ == '__main__':
     db=None
     col=None
     while 1:
+        os.system("cls")
         print('1 - Connect Mongo')
         print('2 - Create Database')
         print('3 - Create a collection')
@@ -111,38 +107,58 @@ if __name__ == '__main__':
             db=CreateDB('Students',client)    
         elif selection =='3': 
             col=createCollection('Computer science',db)  
-        elif selection =='4':            
-            doc={"Name":"Billy",
-                "Roll No":  153,
-                "Branch": "CSE"}         
+        elif selection =='4':    
+            name=input("Name:")
+            rollNumber=input("Roll number:")        
+            branch=input("Branch:")
+            doc={"Name":name,
+                "Roll No":rollNumber,
+                "Branch": branch}         
             insertDocument(doc,col)
-        elif selection =='5':  
-            students=[{"Name":"Roshan","Roll No":159,"Branch":"CSE"},{"Name":"Rahim","Roll No":155,"Branch":"CSE"},{"Name":"Ronak","Roll No":156,"Branch":"CSE"}]      
+        elif selection =='5': 
+            students=[] 
+            while True:
+                name=input("Name:")
+                rollNumber=input("Roll number:")        
+                branch=input("Branch:")
+                students.append({"Name":name,"Roll No":rollNumber,"Branch":branch})
+                follow=input("¿Do you want to insert another studend?(Y/N):")
+                if follow.upper()!="Y":
+                    break
             insertManyDocument(students,col)
-        elif selection =='6':            
-            query={"Name":"Billy"}
+        elif selection =='6':   
+            name = input("Enter a student's name, to retrieve his data:")         
+            query={"Name":name}
             retrievingDocument(query,col)
-        elif selection =='7':            
-            query={"Branch":"CSE"}
+        elif selection =='7': 
+            branch=input("Enter students's branch, to retrieve many documents:")           
+            query={"Branch":branch}
             retrievingManyDocuments(query,col)
         elif selection =='8':        
             retrieveAllDocuments(col)
-        elif selection =='9':            
-            query={"Roll No":{"$eq":153}}
+        elif selection =='9':     
+            rollNumber = input("Enter filter roll number:")       
+            query={"Roll No":{"$eq":rollNumber}}
             filtering(query,col)
         elif selection =='A':  
-            query={"Roll No":{"$eq":153}}
-            new_data={'$set':{'Name':'Miguel'}}
+            rollNumber=input("Roll number:")
+            new_name=input("Enter new name for a student:")
+            query={"Roll No":{"$eq":rollNumber}}
+            new_data={'$set':{'Name':new_name}}
             updateSingleDocument(query,new_data,col)
         elif selection =='B':        
-            present_data={"Branch":"CSE"}
-            new_data={"$set":{"Branch":"ECE"}}   
+            oldBranch=input("Enter old branch:")
+            newBranch=input("Enter new branch:")
+            present_data={"Branch":oldBranch}
+            new_data={"$set":{"Branch":newBranch}}   
             updateMultipleDocument(present_data,new_data,col)         
-        elif selection =='C':            
-            query={"Roll No":153}
+        elif selection =='C':    
+            rollNumber=input("Enter roll number:")        
+            query={"Roll No":{"$eq":rollNumber}}
             deletingSingleDoc(query,col)
-        elif selection =='D':              
-            query={"Branch":"ECE"}
+        elif selection =='D': 
+            branch=input("Enter branch:")             
+            query={"Branch":branch}
             deletingMultipleDocument(query,col)
         elif selection =='F':
             dropColection(col)
@@ -150,3 +166,4 @@ if __name__ == '__main__':
             break                                                               
         else:
             print('Invalid selection, try again')
+        follow=input("Pres any key to continue...")

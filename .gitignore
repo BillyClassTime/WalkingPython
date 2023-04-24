@@ -18,3 +18,4 @@ env/
 
 # Archivos de configuración locales
 .env
+.vscode
