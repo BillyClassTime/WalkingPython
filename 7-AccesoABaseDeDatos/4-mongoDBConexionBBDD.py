@@ -1,6 +1,7 @@
 from pymongo.mongo_client import MongoClient
 
-uri = "mongodb://atlas-sql-643f1b649f0e864aae69ed54-khc2b.a.query.mongodb.net/sample_airbnb?ssl=true&authSource=admin"
+#uri = "mongodb://atlas-sql-643f1b649f0e864aae69ed54-khc2b.a.query.mongodb.net/sample_airbnb?ssl=true&authSource=admin"
+uri = "mongodb://localhost:27017/"
 # Create a new client and connect to the server
 client = MongoClient(uri)
 

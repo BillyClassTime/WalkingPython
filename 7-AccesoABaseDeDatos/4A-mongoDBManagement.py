@@ -3,6 +3,7 @@
 #Query and Projection Operators:https://www.mongodb.com/docs/manual/reference/operator/query/
 from pymongo.mongo_client import MongoClient
 import os
+import platform
 def connectdb():
     clientDB = MongoClient('mongodb://localhost:27017/')
     db = clientDB.admin
@@ -48,6 +49,7 @@ def retrievingManyDocuments(query,col):
 
 #Retrieve all the documents
 def retrieveAllDocuments(col):
+    #asyncronia y multihilo
     result=col.find({}).limit(200)
     for i in result:
         print(i)
@@ -60,7 +62,8 @@ def filtering(query,col):
 #single document
 def updateSingleDocument(query,new_data,col):
     present_data=col.find_one(query)
-    col.update_one(present_data,new_data)
+    if present_data!=None:
+        col.update_one(present_data,new_data)
 
 #multiple documents
 def updateMultipleDocument(present_data,new_data,col):
@@ -84,30 +87,39 @@ if __name__ == '__main__':
     client=None
     db=None
     col=None
+    client=connectdb()
+    db=CreateDB('Students',client)    
+    col=createCollection('Computer science',db)  
+
     while 1:
-        os.system("cls")
-        print('1 - Connect Mongo')
-        print('2 - Create Database')
-        print('3 - Create a collection')
-        print('4 - inserting documents in the collection')
-        print('5 - insert multiple documents')
-        print('6 - Retrieving the data from the collection')
-        print('7 - Retrieving multiple docuemnts from the collection')
-        print('8 - Retrieve all the documents')
-        print('9 - filtering')
-        print('A - update single document')
-        print('B - update multiple documents')
-        print('C - Deleting single document')
-        print('D - Deleting multiple documents')
-        print('F - drop collection')
+        if platform.system() == "Windows":
+            os.system("cls")
+        elif platform.system() == "Darwin":
+            os.system("clear")
+        elif platform.system() == "Linux":
+            os.system("clear")        
+        #print('1 - Connect Mongo')
+        #print('2 - Create Database (if it not exits)')
+        #print('3 - Create a collection (if it not exits)')
+        print('1 - inserting documents in the collection')
+        print('2 - insert multiple documents')
+        print('3 - Retrieving the data from the collection')
+        print('4 - Retrieving multiple documents from the collection')
+        print('5 - Retrieve all the documents')
+        print('6 - filtering')
+        print('7 - update single document')
+        print('8 - update multiple documents')
+        print('9 - Deleting single document')
+        print('A - Deleting multiple documents')
+        print('B - drop collection')
         selection=input('Enter you choise-0-exit()')
-        if selection == '1':
-            client=connectdb()
-        elif selection =='2':    
-            db=CreateDB('Students',client)    
-        elif selection =='3': 
-            col=createCollection('Computer science',db)  
-        elif selection =='4':    
+        #if selection == '1':
+        #    client=connectdb()
+        # elif selection =='2':    
+        #     db=CreateDB('Students',client)    
+        # elif selection =='3': 
+        #     col=createCollection('Computer science',db)  
+        if selection =='1':    
             name=input("Name:")
             rollNumber=input("Roll number:")        
             branch=input("Branch:")
@@ -115,7 +127,7 @@ if __name__ == '__main__':
                 "Roll No":rollNumber,
                 "Branch": branch}         
             insertDocument(doc,col)
-        elif selection =='5': 
+        elif selection =='2': 
             students=[] 
             while True:
                 name=input("Name:")
@@ -126,41 +138,41 @@ if __name__ == '__main__':
                 if follow.upper()!="Y":
                     break
             insertManyDocument(students,col)
-        elif selection =='6':   
+        elif selection =='3':   
             name = input("Enter a student's name, to retrieve his data:")         
             query={"Name":name}
             retrievingDocument(query,col)
-        elif selection =='7': 
+        elif selection =='4': 
             branch=input("Enter students's branch, to retrieve many documents:")           
             query={"Branch":branch}
             retrievingManyDocuments(query,col)
-        elif selection =='8':        
+        elif selection =='5':        
             retrieveAllDocuments(col)
-        elif selection =='9':     
+        elif selection =='6':     
             rollNumber = input("Enter filter roll number:")       
             query={"Roll No":{"$eq":rollNumber}}
             filtering(query,col)
-        elif selection =='A':  
+        elif selection =='7':  
             rollNumber=input("Roll number:")
             new_name=input("Enter new name for a student:")
             query={"Roll No":{"$eq":rollNumber}}
             new_data={'$set':{'Name':new_name}}
             updateSingleDocument(query,new_data,col)
-        elif selection =='B':        
+        elif selection =='8':        
             oldBranch=input("Enter old branch:")
             newBranch=input("Enter new branch:")
             present_data={"Branch":oldBranch}
             new_data={"$set":{"Branch":newBranch}}   
             updateMultipleDocument(present_data,new_data,col)         
-        elif selection =='C':    
+        elif selection =='9':    
             rollNumber=input("Enter roll number:")        
             query={"Roll No":{"$eq":rollNumber}}
             deletingSingleDoc(query,col)
-        elif selection =='D': 
+        elif selection =='A': 
             branch=input("Enter branch:")             
             query={"Branch":branch}
             deletingMultipleDocument(query,col)
-        elif selection =='F':
+        elif selection =='B':
             dropColection(col)
         elif selection =='0':     
             break                                                               

@@ -74,7 +74,7 @@ def display(cur):
     #print
     linea='-'*80
     print(linea)
-    print("CustID CustName   CustAddress  CustCity   CustPhone  CustEmail")
+    print("CustID CustName            CustAddress  CustCity   CustPhone  CustEmail")
     print(linea)
           
     for x in res:
@@ -116,8 +116,8 @@ def main():
             if (ch==3): update(con, cur)
             if (ch==4): delete(con, cur)
             if (ch==5): break
-        except:
-            print('Entre una selección válida')
+        except Exception as e:
+            print('Entre una selección válida.',e)
         
 #call main
 if __name__=='__main__':

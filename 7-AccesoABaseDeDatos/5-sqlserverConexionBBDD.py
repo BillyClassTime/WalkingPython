@@ -2,7 +2,7 @@ import pyodbc
 
 server = '(localdb)\ProjectsV13'
 database = 'bikerentdb' 
-username = 'developer' 
+username = 'developerTwo' 
 password = 'P4$$w0rd' 
 
 #Conecction String
